@@ -39,7 +39,6 @@ const Home = function () {
 
   const showAlert = () => {
     setShow(true);
-    setBlogs(data.getBlogs);
   };
 
   // setting subscription
@@ -48,6 +47,9 @@ const Home = function () {
     {
       onData: (data_ws) => {
         setBlogUpdate(data_ws.data.data.newBlog);
+        console.log("data from subscription", data_ws.data.data.newBlog);
+        console.log("blog update", blogUpdate);
+        setBlogs((prevBlogs) => [...prevBlogs, data_ws.data.data.newBlog]);
         showAlert();
       },
     }
@@ -58,7 +60,6 @@ const Home = function () {
       setBlogs(data.getBlogs);
     }
   }, [data]);
-
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
